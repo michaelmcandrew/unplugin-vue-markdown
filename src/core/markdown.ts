@@ -103,6 +103,7 @@ export function createMarkdown(options: ResolvedOptions) {
 
     const {
       wrapperClasses,
+      wrapperComponentReplacesWrapperDiv,
       wrapperComponent,
       transforms,
       headEnabled,
@@ -116,18 +117,20 @@ export function createMarkdown(options: ResolvedOptions) {
     let html = await md.renderAsync(raw, env)
     const { excerpt = '', frontmatter: data = null } = env
 
-    const wrapperClassesResolved = toArray(
-      typeof wrapperClasses === 'function'
+    if(!wrapperComponentReplacesWrapperDiv){
+      const wrapperClassesResolved = toArray(
+        typeof wrapperClasses === 'function'
         ? wrapperClasses(id, raw)
         : wrapperClasses,
-    )
+      )
       .filter(Boolean)
       .join(' ')
-
-    if (wrapperClassesResolved)
-      html = `<div class="${wrapperClassesResolved}">${html}</div>`
-    else
+      
+      if (wrapperClassesResolved)
+        html = `<div class="${wrapperClassesResolved}">${html}</div>`
+      else
       html = `<div>${html}</div>`
+    }
 
     const wrapperComponentName = typeof wrapperComponent === 'function'
       ? wrapperComponent(id, raw)

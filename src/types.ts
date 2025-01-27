@@ -177,11 +177,18 @@ export interface Options {
   wrapperClasses?: string | string[] | undefined | null | ((id: string, code: string) => string | string[] | undefined | null)
 
   /**
-   * Component name to wrapper with
+   * Component name to wrapper with. Note: this will wrap the inner div if 
    *
    * @default undefined
    */
   wrapperComponent?: string | undefined | null | ((id: string, code: string) => string | undefined | null)
+
+  /**
+   * Whether the wrapper component should replace or wrap the inner wrapper div.
+   *
+   * @default false
+   */
+  wrapperComponentReplacesWrapperDiv?: boolean
 
   /**
    * Custom tranformations apply before and after the markdown transformation
@@ -199,7 +206,7 @@ export interface Options {
   exclude?: FilterPattern
 }
 
-export interface ResolvedOptions extends Required<Options> {}
+export interface ResolvedOptions extends Required<Options> { }
 
 export interface MarkdownEnv extends MarkdownItEnv {
   id: string
